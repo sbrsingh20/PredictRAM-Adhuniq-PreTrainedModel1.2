@@ -1,0 +1,18 @@
+Model Parameters and Accuracy
+========================================
+Model: Linear Regression
+Accuracy (R-squared %): -78.0449%
+Mean Squared Error: 0.0329
+
+Model Coefficients:
+Inflation Rate Coefficient: -0.0047
+Interest Rate Coefficient: 0.0000
+Geopolitical Risk Coefficient: 0.0072
+Intercept (Bias): 0.0153
+========================================
+
+Sample Predictions on Test Data:
+   Actual  Predicted
+ 0.002093   0.041805
+ 0.010151   0.014010
+-0.281970   0.029447

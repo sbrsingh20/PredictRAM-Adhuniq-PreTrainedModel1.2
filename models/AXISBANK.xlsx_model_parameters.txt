@@ -1,0 +1,18 @@
+Model Parameters and Accuracy
+========================================
+Model: Linear Regression
+Accuracy (R-squared %): -35.7195%
+Mean Squared Error: 0.0004
+
+Model Coefficients:
+Inflation Rate Coefficient: -0.0011
+Interest Rate Coefficient: 0.0000
+VIX Coefficient: 0.0056
+Intercept (Bias): -0.0655
+========================================
+
+Sample Predictions on Test Data:
+   Actual  Predicted
+-0.002648   0.003703
+ 0.022463   0.007478
+-0.016464   0.011683
