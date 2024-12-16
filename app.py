@@ -7,11 +7,19 @@ import matplotlib.pyplot as plt
 
 # Function to load the machine learning model from a .pkl file
 def load_trained_model(model_filename):
-    return joblib.load(model_filename)
+    try:
+        return joblib.load(model_filename)
+    except Exception as e:
+        st.error(f"Error loading model: {e}")
+        return None
 
 # Function to load model details (coefficients, accuracy, etc.)
 def load_model_details(model_details_filename):
-    return joblib.load(model_details_filename)
+    try:
+        return joblib.load(model_details_filename)
+    except Exception as e:
+        st.error(f"Error loading model details: {e}")
+        return None
 
 # Function to plot historical stock data
 def plot_stock_data(stock_data):
