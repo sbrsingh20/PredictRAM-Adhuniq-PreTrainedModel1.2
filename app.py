@@ -5,14 +5,15 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Function to load models from .pkl files
-def load_model(model_filename):
+# Function to load the machine learning model from a .pkl file
+def load_trained_model(model_filename):
     return joblib.load(model_filename)
 
+# Function to load model details (coefficients, accuracy, etc.)
 def load_model_details(model_details_filename):
     return joblib.load(model_details_filename)
 
-# Function to plot stock data
+# Function to plot historical stock data
 def plot_stock_data(stock_data):
     fig, ax = plt.subplots(figsize=(10, 6))
     ax.plot(stock_data.index, stock_data['Adj Close'], label="Adjusted Close", color='b')
@@ -25,22 +26,21 @@ def plot_stock_data(stock_data):
 # Streamlit app interface
 st.title("Stock Prediction and Model Evaluation")
 
-# Upload a trained model file
+# Upload a trained model (.pkl)
 model_file = st.file_uploader("Upload a pre-trained model (.pkl)", type="pkl")
 
-# Load model if file is uploaded
 model = None
 model_details = None
 
 if model_file is not None:
     try:
         # Load the trained machine learning model
-        model = joblib.load(model_file)  # Load the trained machine learning model
+        model = load_trained_model(model_file)
         
-        # Model details file should have the same name as model with '_model_details.pkl' suffix
+        # Try loading the model details
         model_details_filename = model_file.name.replace('prediction_model', 'model_details')
 
-        # Load model details if available
+        # Check if the model details file exists
         if os.path.exists(model_details_filename):
             model_details = load_model_details(model_details_filename)
         else:
@@ -79,7 +79,7 @@ if model is not None:
                     # Prediction (returns based on macroeconomic inputs)
                     prediction = model.predict(input_data)
                     
-                    # Check the prediction output to ensure it is in the expected format
+                    # Check if the prediction is 1D or 2D array
                     predicted_return = prediction[0] if prediction.ndim == 1 else prediction[0, 0]
                     
                     st.write(f"Predicted Stock Return for {stock_file_name}: {predicted_return * 100:.2f}%")
