@@ -1,8 +1,8 @@
 import streamlit as st
-import pandas as pd
 import joblib
 import numpy as np
 import os
+import pandas as pd
 import matplotlib.pyplot as plt
 
 # Function to load models from .pkl files
@@ -54,18 +54,35 @@ if model_file is not None:
     interest_rate = st.number_input("Interest Rate (%)", min_value=-100.0, max_value=100.0, value=0.0, step=0.1)
     vix = st.number_input("VIX Index", min_value=0.0, max_value=200.0, value=20.0, step=0.1)
 
-    # Prepare input features for prediction
-input_data = np.array([[inflation, interest_rate, vix]])  # This already ensures it's a 2D array
+    # Prepare input features for prediction (ensure it's a 2D array)
+    input_data = np.array([[inflation, interest_rate, vix]])
 
-# Make prediction if model is loaded
-if st.button("Predict Stock Returns"):
-    # Prediction (returns based on macroeconomic inputs)
-    predicted_return = model.predict(input_data)[0]  # This extracts the first (and only) prediction
-    st.write(f"Predicted Stock Return: {predicted_return * 100:.2f}%")
+    # Debugging: Check the shape of the input data
+    st.write(f"Input data shape: {input_data.shape}")
+    st.write(f"Input data: {input_data}")
+
+    # Make prediction if model is loaded
+    if st.button("Predict Stock Returns"):
+        # Prediction (returns based on macroeconomic inputs)
+        prediction = model.predict(input_data)
+        
+        # Check the prediction output to ensure it is in the expected format
+        st.write(f"Prediction output: {prediction}")
+        
+        # Extract the predicted return if it's a 1D array or directly
+        predicted_return = prediction[0] if prediction.ndim == 1 else prediction[0, 0]
+        
+        st.write(f"Predicted Stock Return: {predicted_return * 100:.2f}%")
 
     # Display historical stock data and make prediction
     st.subheader("Select Stock for Historical Data and Prediction")
-    stock_file_name = st.selectbox("Select Stock File", model_details['model'].keys())
-    
-    stock_data = pd.read_excel(stock_file_name, parse_dates=['Date'], engine='openpyxl')
-    plot_stock_data(stock_data)
+    stock_file_name = st.selectbox("Select Stock File", os.listdir('stockdata'))
+
+    if stock_file_name:
+        stock_file_path = os.path.join('stockdata', stock_file_name)
+        
+        # Load stock data
+        stock_data = pd.read_excel(stock_file_path, parse_dates=['Date'], engine='openpyxl')
+        
+        # Plot stock data
+        plot_stock_data(stock_data)
