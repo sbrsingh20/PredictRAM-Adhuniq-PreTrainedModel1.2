@@ -4,6 +4,7 @@ import numpy as np
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
 
 # Function to load the machine learning model from a .pkl file
 def load_trained_model(model_filename):
