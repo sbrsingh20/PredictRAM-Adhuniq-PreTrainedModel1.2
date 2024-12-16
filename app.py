@@ -55,13 +55,13 @@ if model_file is not None:
     vix = st.number_input("VIX Index", min_value=0.0, max_value=200.0, value=20.0, step=0.1)
 
     # Prepare input features for prediction
-    input_data = np.array([[inflation, interest_rate, vix]])
+input_data = np.array([[inflation, interest_rate, vix]])  # This already ensures it's a 2D array
 
-    # Make prediction if model is loaded
-    if st.button("Predict Stock Returns"):
-        # Prediction (returns based on macroeconomic inputs)
-        predicted_return = model.predict(input_data)[0]
-        st.write(f"Predicted Stock Return: {predicted_return * 100:.2f}%")
+# Make prediction if model is loaded
+if st.button("Predict Stock Returns"):
+    # Prediction (returns based on macroeconomic inputs)
+    predicted_return = model.predict(input_data)[0]  # This extracts the first (and only) prediction
+    st.write(f"Predicted Stock Return: {predicted_return * 100:.2f}%")
 
     # Display historical stock data and make prediction
     st.subheader("Select Stock for Historical Data and Prediction")
