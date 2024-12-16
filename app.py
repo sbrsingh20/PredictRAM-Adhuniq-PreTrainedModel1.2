@@ -63,18 +63,18 @@ if model is not None:
         # Prepare input features for prediction (ensure it's a 2D array)
         input_data = np.array([[inflation, interest_rate, vix]])
 
-        for stock_file_name in selected_stocks:
-            stock_file_path = os.path.join('stockdata', stock_file_name)
+        # Prediction Button
+        if st.button("Predict Stock Returns"):
+            for stock_file_name in selected_stocks:
+                stock_file_path = os.path.join('stockdata', stock_file_name)
 
-            # Load stock data
-            stock_data = pd.read_excel(stock_file_path, parse_dates=['Date'], engine='openpyxl')
-            
-            # Display stock data and plot
-            st.subheader(f"Historical Data for {stock_file_name}")
-            plot_stock_data(stock_data)
+                # Load stock data
+                stock_data = pd.read_excel(stock_file_path, parse_dates=['Date'], engine='openpyxl')
+                
+                # Display stock data and plot
+                st.subheader(f"Historical Data for {stock_file_name}")
+                plot_stock_data(stock_data)
 
-            # Prediction Button
-            if st.button(f"Predict Stock Return for {stock_file_name}"):
                 try:
                     # Prediction (returns based on macroeconomic inputs)
                     prediction = model.predict(input_data)
